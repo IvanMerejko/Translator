@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TypesFmd.h"
+#include "../Context.h"
 
 constexpr auto CharToInt(char value)
 {
@@ -9,4 +10,6 @@ constexpr auto CharToInt(char value)
 
 SymbolsCategories CreateSymbolsCategories();
 
-NameToCodeMap CreateIdentifiersMap();
+NameToCodeMap CreateKeywordsMap();
+
+Categories GetSymbolCategories(Symbol symbol, const Context& context);

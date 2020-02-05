@@ -8,9 +8,9 @@ class Context
 public:
     Context();
 
-    const SymbolsCategories& GetSymbolsCategories() noexcept;
-    const NameToCodeMap& GetKeywords() noexcept;
-    const NameToCodeMap& GetIdentifiers() noexcept;
+    const SymbolsCategories& GetSymbolsCategories() const& noexcept;
+    const NameToCodeMap& GetKeywords() const& noexcept;
+    const NameToCodeMap& GetIdentifiers() const& noexcept;
 private:
     SymbolsCategories m_symbolCategories;
     NameToCodeMap m_keywords;

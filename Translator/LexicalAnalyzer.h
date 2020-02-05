@@ -16,8 +16,7 @@ public:
 //	explicit LexicalAnalyzer(std::string_view file_name);
 	void StartAnalyze();
 
-private:
-    Categories getSymbolCategories(Symbol symbol);
+
 private:
 	Context m_context;
 };

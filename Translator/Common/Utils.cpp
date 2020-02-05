@@ -1,14 +1,15 @@
 #include "Utils.h"
 #include "TypesFmd.h"
 #include "Constants.h"
+#include "../Context.h"
 
 SymbolsCategories CreateSymbolsCategories()
 {
     SymbolsCategories symbolsCategories
     {
         /// White space
-        {CharToInt(' '), Categories ::WhiteSpace},
-        {CharToInt('\n'), Categories ::WhiteSpace},
+        {CharToInt(' '), Categories::WhiteSpace},
+        {CharToInt('\n'), Categories::WhiteSpace},
         {8, Categories ::WhiteSpace}, //backspace
         {9, Categories ::WhiteSpace}, //Tab
         /// Digits
@@ -80,9 +81,9 @@ SymbolsCategories CreateSymbolsCategories()
 
 
 
-NameToCodeMap CreateIdentifiersMap()
+NameToCodeMap CreateKeywordsMap()
 {
-    auto start = IdentifierCodeStart;
+    auto start = KeywordsCodeStart;
     NameToCodeMap map
     {
         {"program", ++start},
@@ -90,4 +91,15 @@ NameToCodeMap CreateIdentifiersMap()
         {"end", ++start}
     };
     return map;
+}
+
+Categories GetSymbolCategories(Symbol symbol, const Context& context)
+{
+    const auto& symbolsCategories = context.GetSymbolsCategories();
+    const auto it = symbolsCategories.find(CharToInt(symbol));
+    if(it != symbolsCategories.end())
+    {
+        return it->second;
+    }
+    return Categories::ErrorSymbol;
 }

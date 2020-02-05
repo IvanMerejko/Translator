@@ -7,19 +7,19 @@
 
 Context::Context()
     : m_symbolCategories{CreateSymbolsCategories()}
-    , m_keywords{CreateIdentifiersMap()}
+    , m_keywords{CreateKeywordsMap()}
     , m_identifiers{}
 {}
 
-const SymbolsCategories& Context::GetSymbolsCategories() noexcept
+const SymbolsCategories& Context::GetSymbolsCategories()const& noexcept
 {
     return m_symbolCategories;
 }
-const NameToCodeMap& Context::GetKeywords() noexcept
+const NameToCodeMap& Context::GetKeywords()const& noexcept
 {
     return m_keywords;
 }
-const NameToCodeMap& Context::GetIdentifiers() noexcept
+const NameToCodeMap& Context::GetIdentifiers()const&  noexcept
 {
     return m_identifiers;
 }

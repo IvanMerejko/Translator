@@ -13,6 +13,7 @@ enum class Categories
 };
 using Code = int;
 using Name = std::string;
+using SymbolsString = std::string;
 using SymbolsCategories = std::map<Code, Categories>;
 using NameToCodeMap = std::map<Name, Code>;
 using Symbol = char;

@@ -25,16 +25,7 @@ namespace
 //{
 //}
 
-Categories LexicalAnalyzer::getSymbolCategories(Symbol symbol)
-{
-    const auto& symbolsCategories = m_context.GetSymbolsCategories();
-    const auto it = symbolsCategories.find(CharToInt(symbol));
-    if(it != symbolsCategories.end())
-    {
-        return it->second;
-    }
-    return Categories::ErrorSymbol;
-}
+
 
 void LexicalAnalyzer::StartAnalyze()
 {
