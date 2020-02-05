@@ -11,6 +11,12 @@ enum class Categories
     StartComment             = 5,
     ErrorSymbol              = 6,
 };
+///using in Comment
+enum class ParsingState
+{
+    Normal = 0,
+    Error = 1
+};
 using Code = int;
 using Name = std::string;
 using SymbolsString = std::string;

@@ -29,3 +29,8 @@ SymbolsString Identifier::GetParsedElementInString() const noexcept
 {
     return m_identifier;
 }
+
+ParsingState Identifier::GetElementParsingState() const noexcept
+{
+    return ParsingState::Normal;
+}

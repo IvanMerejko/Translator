@@ -25,3 +25,8 @@ SymbolsString Digit::GetParsedElementInString() const noexcept
 {
     return m_digit;
 }
+
+ParsingState Digit::GetElementParsingState() const noexcept
+{
+    return ParsingState::Normal;
+}

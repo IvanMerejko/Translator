@@ -25,3 +25,8 @@ SymbolsString WhiteSpace::GetParsedElementInString() const noexcept
 {
     return {};
 }
+
+ParsingState WhiteSpace::GetElementParsingState() const noexcept
+{
+    return ParsingState::Normal;
+}

@@ -1,18 +1,18 @@
 #pragma once
 
 #include "BaseElement.h"
-#include "../Common/TypesFmd.h"
-#include <iostream>
-class Digit : public BaseElement
+class Comment : public BaseElement
 {
 public:
-    Digit(Symbol startDigit, const Context& context);
+    Comment(const Context& context);
     Symbol ParseElement(std::iostream& file) override;
     SymbolsString GetParsedElementInString() const noexcept override;
     ParsingState GetElementParsingState() const noexcept override ;
-    ~Digit() override = default;
 
 private:
-    SymbolsString m_digit;
+    bool isBeginningEndComment(Symbol symbol) const noexcept ;
+    bool isEndOfComment(Symbol symbol) const noexcept ;
 };
+
+
 
