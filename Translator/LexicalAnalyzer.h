@@ -1,24 +1,24 @@
 #pragma once
-#include <string_view>
-#include <filesystem>
-#include <map>
+//#include <string_view>
+//#include <filesystem>
+//#include <string_view>
+#include "Context.h"
+
 #include <set>
-namespace fs = std::filesystem;
-using InitialSymbolsCategories = std::map<int, std::set<int>>;
+//namespace fs = std::filesystem;
+
 class LexicalAnalyzer
 {
 public:
-	enum class SymbolType
-	{
-		Digit = 0,
-		Identifier = 1,
-		WhiteSpace = 2,
-		Error = 100,
-	};
+
 public:
-	explicit LexicalAnalyzer(std::string_view file_name);
+    LexicalAnalyzer() = default;
+//	explicit LexicalAnalyzer(std::string_view file_name);
 	void StartAnalyze();
+
 private:
-	InitialSymbolsCategories m_initialSymbolsCategories;
+    Categories getSymbolCategories(Symbol symbol);
+private:
+	Context m_context;
 };
 
