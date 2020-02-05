@@ -14,21 +14,20 @@ Comment::Comment(const Context& context)
  * only to find end of comment
  *
  * */
-Symbol Comment::ParseElement(std::iostream& file)
+OptionalSymbol Comment::ParseElement(std::iostream& file)
 {
     Symbol currentSymbol{};
     bool isSymbolBeginningOfEndOfCommentAlreadyExists {false};
     while ( file.get(currentSymbol))
     {
-        if(!isSymbolBeginningOfEndOfCommentAlreadyExists ||
-            isBeginningEndComment(currentSymbol))
+        if( isBeginningEndComment(currentSymbol))
         {
             isSymbolBeginningOfEndOfCommentAlreadyExists = true;
         }
         else if(isSymbolBeginningOfEndOfCommentAlreadyExists &&
             isBeginningEndComment(currentSymbol))
         {
-            return currentSymbol;
+            return std::nullopt;
         }
         else
         {

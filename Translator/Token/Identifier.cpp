@@ -8,7 +8,7 @@ Identifier::Identifier (Symbol startLetter, const Context& context)
 {
 
 }
-Symbol Identifier::ParseElement(std::iostream& file)
+OptionalSymbol Identifier::ParseElement(std::iostream& file)
 {
     Symbol currentSymbol{};
     while ( file.get(currentSymbol))

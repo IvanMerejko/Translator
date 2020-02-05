@@ -11,15 +11,15 @@ Context::Context()
     , m_identifiers{}
 {}
 
-const SymbolsCategories& Context::GetSymbolsCategories()const& noexcept
+const SymbolsCategories& Context::GetSymbolsCategories() const noexcept
 {
     return m_symbolCategories;
 }
-const NameToCodeMap& Context::GetKeywords()const& noexcept
+const NameToCodeMap& Context::GetKeywords() const noexcept
 {
     return m_keywords;
 }
-const NameToCodeMap& Context::GetIdentifiers()const&  noexcept
+const NameToCodeMap& Context::GetIdentifiers() const  noexcept
 {
     return m_identifiers;
 }

@@ -7,7 +7,7 @@ Digit::Digit(Symbol startDigit, const Context& context)
     : BaseElement{context}
     , m_digit{startDigit}
 {}
-Symbol Digit::ParseElement(std::iostream& file)
+OptionalSymbol Digit::ParseElement(std::iostream& file)
 {
     Symbol currentSymbol{};
     while ( file.get(currentSymbol))

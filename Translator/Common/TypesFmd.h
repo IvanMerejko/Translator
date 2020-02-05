@@ -1,5 +1,7 @@
 #pragma once
-#include<map>
+#include <map>
+#include <optional>
+#include <memory>
 
 enum class Categories
 {
@@ -23,3 +25,4 @@ using SymbolsString = std::string;
 using SymbolsCategories = std::map<Code, Categories>;
 using NameToCodeMap = std::map<Name, Code>;
 using Symbol = char;
+using OptionalSymbol = std::optional<char>;

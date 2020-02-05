@@ -95,7 +95,7 @@ NameToCodeMap CreateKeywordsMap()
 
 Categories GetSymbolCategories(Symbol symbol, const Context& context)
 {
-    const auto& symbolsCategories = context.GetSymbolsCategories();
+    auto& symbolsCategories = context.GetSymbolsCategories();
     const auto it = symbolsCategories.find(CharToInt(symbol));
     if(it != symbolsCategories.end())
     {

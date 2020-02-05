@@ -7,7 +7,7 @@ class Digit : public BaseElement
 {
 public:
     Digit(Symbol startDigit, const Context& context);
-    Symbol ParseElement(std::iostream& file) override;
+    OptionalSymbol ParseElement(std::iostream& file) override;
     SymbolsString GetParsedElementInString() const noexcept override;
     ParsingState GetElementParsingState() const noexcept override ;
     ~Digit() override = default;

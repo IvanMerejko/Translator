@@ -3,12 +3,12 @@
 #include "../Context.h"
 #include "../Common/TypesFmd.h"
 #include "../Common/Utils.h"
-
+#include <optional>
 WhiteSpace::WhiteSpace(const Context& context)
     :BaseElement{context}
 {}
 
-Symbol WhiteSpace::ParseElement(std::iostream& file)
+OptionalSymbol WhiteSpace::ParseElement(std::iostream& file)
 {
     Symbol currentSymbol{};
     while ( file.get(currentSymbol))
@@ -16,7 +16,7 @@ Symbol WhiteSpace::ParseElement(std::iostream& file)
         const auto symbolCategory = GetSymbolCategories(currentSymbol, m_context);
         if( symbolCategory != Categories::WhiteSpace)
         {
-            return currentSymbol;
+            return std::nullopt;
         }
     }
     return EOF;
