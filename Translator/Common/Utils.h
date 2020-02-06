@@ -19,7 +19,7 @@ constexpr auto incrementLineIfNeed(Symbol symbol, TokenLine& line, TokenColumn& 
     if (symbol == '\n' || symbol=='\r')
     {
         ++line;
-        column = 1;
+        column = 0;
     }
 }
 

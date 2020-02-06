@@ -12,6 +12,7 @@ Symbol OneSymbolSeparator::ParseElement(std::ifstream& file, TokenLine& line, To
 {
     Symbol currentSymbol{};
     file.get(currentSymbol);
+    ++column;
     return currentSymbol;
 }
 OptionalSymbolsString OneSymbolSeparator::GetParsedElementInString() const noexcept
