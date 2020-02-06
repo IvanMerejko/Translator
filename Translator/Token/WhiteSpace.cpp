@@ -4,26 +4,30 @@
 #include "../Common/TypesFmd.h"
 #include "../Common/Utils.h"
 #include <optional>
+#include <fstream>
 WhiteSpace::WhiteSpace(const Context& context)
     :BaseElement{context}
 {}
 
-OptionalSymbol WhiteSpace::ParseElement(std::iostream& file)
+Symbol WhiteSpace::ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& column)
 {
     Symbol currentSymbol{};
+    incrementLineIfNeed(currentSymbol, line, column);
     while ( file.get(currentSymbol))
     {
+        ++column;
         const auto symbolCategory = GetSymbolCategories(currentSymbol, m_context);
         if( symbolCategory != Categories::WhiteSpace)
         {
-            return std::nullopt;
+            return currentSymbol;
         }
+        incrementLineIfNeed(currentSymbol, line, column);
     }
     return EOF;
 }
-SymbolsString WhiteSpace::GetParsedElementInString() const noexcept
+OptionalSymbolsString WhiteSpace::GetParsedElementInString() const noexcept
 {
-    return {};
+    return std::nullopt;
 }
 
 ParsingState WhiteSpace::GetElementParsingState() const noexcept

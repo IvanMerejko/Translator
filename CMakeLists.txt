@@ -22,5 +22,9 @@ add_executable(Projects
         Translator/Common/TypesFmd.h
         Translator/Common/Utils.h
         Translator/Common/Utils.cpp
-        Translator/Common/Constants.h Translator/Token/Comment.cpp Translator/Token/Comment.h)
+        Translator/Common/Constants.h
+        Translator/Token/Comment.cpp
+        Translator/Token/Comment.h
+        Translator/Token/OneSymbolSeparator.cpp
+        Translator/Token/OneSymbolSeparator.h)
 

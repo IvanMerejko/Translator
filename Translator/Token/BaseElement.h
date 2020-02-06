@@ -11,8 +11,8 @@ public:
         : m_context{context}
         , m_parsingState{}{};
 
-    virtual OptionalSymbol ParseElement(std::iostream& file) = 0;
-    virtual SymbolsString GetParsedElementInString() const noexcept = 0;
+    virtual Symbol ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& column) = 0;
+    virtual OptionalSymbolsString GetParsedElementInString() const noexcept = 0;
     virtual ParsingState GetElementParsingState() const noexcept = 0;
     virtual ~BaseElement() = default;
 

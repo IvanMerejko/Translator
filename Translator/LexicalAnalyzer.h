@@ -5,22 +5,21 @@
 #include "Context.h"
 #include "Token/BaseElement.h"
 
-#include <set>
-//namespace fs = std::filesystem;
-
 class LexicalAnalyzer
 {
 public:
 
 public:
     LexicalAnalyzer() = default;
-//	explicit LexicalAnalyzer(std::string_view file_name);
 	void StartAnalyze(std::string_view file_name);
 
 private:
     UpElement getElementPointer(Symbol currentSymbol, Categories category) const;
+    /// return next symbol if it not equal to <, as comment start like *<
+    OptionalSymbol specialCaseForCommentStart(std::ifstream& file) const;
 
 private:
 	Context m_context;
+    TokensInfoVector m_tokensInfoVector;
 };
 

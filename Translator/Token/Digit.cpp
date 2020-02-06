@@ -3,15 +3,17 @@
 #include <fstream>
 #include "../Common/Utils.h"
 
+
 Digit::Digit(Symbol startDigit, const Context& context)
     : BaseElement{context}
     , m_digit{startDigit}
 {}
-OptionalSymbol Digit::ParseElement(std::iostream& file)
+Symbol Digit::ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& column)
 {
     Symbol currentSymbol{};
     while ( file.get(currentSymbol))
     {
+        ++column;
         if(GetSymbolCategories(currentSymbol, m_context) != Categories::StartConstant)
         {
             return currentSymbol;
@@ -21,7 +23,7 @@ OptionalSymbol Digit::ParseElement(std::iostream& file)
     return EOF;
 }
 
-SymbolsString Digit::GetParsedElementInString() const noexcept
+OptionalSymbolsString Digit::GetParsedElementInString() const noexcept
 {
     return m_digit;
 }

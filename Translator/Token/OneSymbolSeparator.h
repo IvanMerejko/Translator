@@ -1,13 +1,17 @@
-#pragma once
+#pragma one
 
 #include "BaseElement.h"
-class Error : public BaseElement
+class OneSymbolSeparator : public BaseElement
 {
 public:
-    Error (const Context& context);
+    OneSymbolSeparator(Symbol separator, const Context& context);
     Symbol ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& column) override ;
     OptionalSymbolsString GetParsedElementInString() const noexcept override;
     ParsingState GetElementParsingState() const noexcept override ;
-    ~Error() override = default;
+    ~OneSymbolSeparator() override = default;
+private:
+    SymbolsString m_separator;
 };
+
+
 

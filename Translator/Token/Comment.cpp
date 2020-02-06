@@ -5,7 +5,8 @@
 #include "Comment.h"
 #include "BaseElement.h"
 #include "../Common/Utils.h"
-
+#include <iostream>
+#include <fstream>
 Comment::Comment(const Context& context)
     :BaseElement{context}
 {}
@@ -14,43 +15,46 @@ Comment::Comment(const Context& context)
  * only to find end of comment
  *
  * */
-OptionalSymbol Comment::ParseElement(std::iostream& file)
+Symbol Comment::ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& column)
 {
     Symbol currentSymbol{};
     bool isSymbolBeginningOfEndOfCommentAlreadyExists {false};
     while ( file.get(currentSymbol))
     {
+        ++column;
         if( isBeginningEndComment(currentSymbol))
         {
             isSymbolBeginningOfEndOfCommentAlreadyExists = true;
         }
         else if(isSymbolBeginningOfEndOfCommentAlreadyExists &&
-            isBeginningEndComment(currentSymbol))
+                isEndOfComment(currentSymbol))
         {
-            return std::nullopt;
+            file.get(currentSymbol);
+            ++column;
+            return currentSymbol;
         }
         else
         {
             isSymbolBeginningOfEndOfCommentAlreadyExists = false;
         }
-
+        incrementLineIfNeed(currentSymbol, line, column);
     }
     m_parsingState = ParsingState::Error;
     return EOF;
 }
-SymbolsString Comment::GetParsedElementInString() const noexcept
+OptionalSymbolsString Comment::GetParsedElementInString() const noexcept
 {
-    return {};
+    return std::nullopt;
 }
 
 bool Comment::isBeginningEndComment(Symbol symbol) const noexcept
 {
-    return symbol == '*';
+    return symbol == '>';
 }
 
 bool Comment::isEndOfComment(Symbol symbol) const noexcept
 {
-    return symbol == '/';
+    return symbol == '*';
 }
 
 ParsingState Comment::GetElementParsingState() const noexcept

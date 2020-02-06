@@ -7,9 +7,12 @@ SymbolsCategories CreateSymbolsCategories()
 {
     SymbolsCategories symbolsCategories
     {
+        /// Comment
+        {CharToInt('*'), Categories::StartComment},
         /// White space
         {CharToInt(' '), Categories::WhiteSpace},
         {CharToInt('\n'), Categories::WhiteSpace},
+        {CharToInt('\r'), Categories::WhiteSpace},
         {8, Categories ::WhiteSpace}, //backspace
         {9, Categories ::WhiteSpace}, //Tab
         /// Digits
@@ -75,6 +78,11 @@ SymbolsCategories CreateSymbolsCategories()
         {CharToInt('x'), Categories::StartIdentifier},
         {CharToInt('y'), Categories::StartIdentifier},
         {CharToInt('z'), Categories::StartIdentifier},
+        /// one symbol delimiter
+        {CharToInt('='),  Categories::OneSymbolSeparator},
+        {CharToInt(';'),  Categories::OneSymbolSeparator},
+        {CharToInt(','),  Categories::OneSymbolSeparator},
+        {CharToInt('\\'), Categories::OneSymbolSeparator},
     };
     return symbolsCategories;
 }
@@ -95,7 +103,7 @@ NameToCodeMap CreateKeywordsMap()
 
 Categories GetSymbolCategories(Symbol symbol, const Context& context)
 {
-    auto& symbolsCategories = context.GetSymbolsCategories();
+    const auto& symbolsCategories = context.GetSymbolsCategories();
     const auto it = symbolsCategories.find(CharToInt(symbol));
     if(it != symbolsCategories.end())
     {

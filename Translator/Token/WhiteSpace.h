@@ -6,8 +6,9 @@ class WhiteSpace : public BaseElement
 {
 public:
     WhiteSpace(const Context& context);
-    OptionalSymbol ParseElement(std::iostream& file) override;
-    SymbolsString GetParsedElementInString() const noexcept override;
+    Symbol ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& column) override;
+    OptionalSymbolsString GetParsedElementInString() const noexcept override;
     ParsingState GetElementParsingState() const noexcept override ;
+    ~WhiteSpace() override = default;
 };
 
