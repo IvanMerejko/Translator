@@ -37,7 +37,7 @@ Symbol Comment::ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& 
         {
             isSymbolBeginningOfEndOfCommentAlreadyExists = false;
         }
-        incrementLineIfNeed(currentSymbol, line, column);
+        utils::incrementLineIfNeed(currentSymbol, line, column);
     }
     m_parsingState = ParsingState::Error;
     return EOF;

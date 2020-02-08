@@ -9,12 +9,16 @@ public:
     Context();
 
     const SymbolsCategories& GetSymbolsCategories() const noexcept;
-    const NameToCodeMap& GetKeywords() const noexcept;
-    const NameToCodeMap& GetIdentifiers() const noexcept;
+    const TokenNameToCodeMap& GetKeywords() const noexcept;
+    const TokenNameToCodeMap& GetIdentifiers() const noexcept;
+    const TokenNameToCodeMap& GetConstants() const noexcept;
+    TokenNumber AddNewIdentifier(TokenView name);
+    TokenNumber AddNewConstant(TokenView name);
 private:
     SymbolsCategories m_symbolCategories;
-    NameToCodeMap m_keywords;
-    NameToCodeMap m_identifiers;
+    TokenNameToCodeMap m_keywords;
+    TokenNameToCodeMap m_identifiers;
+    TokenNameToCodeMap m_constants;
 };
 
 

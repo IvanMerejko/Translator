@@ -14,7 +14,7 @@ Symbol Identifier::ParseElement(std::ifstream& file, TokenLine& line, TokenColum
     while ( file.get(currentSymbol))
     {
         ++column;
-        const auto symbolCategory = GetSymbolCategories(currentSymbol, m_context);
+        const auto symbolCategory = utils::GetSymbolCategories(currentSymbol, m_context);
         if( symbolCategory == Categories::StartIdentifier ||
             symbolCategory == Categories::StartConstant)
         {

@@ -12,16 +12,22 @@ WhiteSpace::WhiteSpace(const Context& context)
 Symbol WhiteSpace::ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& column)
 {
     Symbol currentSymbol{};
-    incrementLineIfNeed(currentSymbol, line, column);
+    utils::incrementLineIfNeed(currentSymbol, line, column);
     while ( file.get(currentSymbol))
     {
         ++column;
-        const auto symbolCategory = GetSymbolCategories(currentSymbol, m_context);
-        if( symbolCategory != Categories::WhiteSpace)
+        const auto symbolCategory = utils::GetSymbolCategories(currentSymbol, m_context);
+        if (symbolCategory == Categories::ScipSymbol)
+        {
+            continue;
+        } else if( symbolCategory != Categories::WhiteSpace)
         {
             return currentSymbol;
         }
-        incrementLineIfNeed(currentSymbol, line, column);
+        if(utils::incrementLineIfNeed(currentSymbol, line, column))
+        {
+            column = 0;
+        }
     }
     return EOF;
 }

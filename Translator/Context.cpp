@@ -6,20 +6,32 @@
 #include "Common\Utils.h"
 
 Context::Context()
-    : m_symbolCategories{CreateSymbolsCategories()}
-    , m_keywords{CreateKeywordsMap()}
+    : m_symbolCategories{utils::CreateSymbolsCategories()}
+    , m_keywords{utils::CreateKeywordsMap()}
     , m_identifiers{}
+    , m_constants{}
 {}
 
 const SymbolsCategories& Context::GetSymbolsCategories() const noexcept
 {
     return m_symbolCategories;
 }
-const NameToCodeMap& Context::GetKeywords() const noexcept
+const TokenNameToCodeMap& Context::GetKeywords() const noexcept
 {
     return m_keywords;
 }
-const NameToCodeMap& Context::GetIdentifiers() const  noexcept
+
+const TokenNameToCodeMap& Context::GetConstants() const  noexcept
 {
-    return m_identifiers;
+    return m_constants;
+}
+
+TokenNumber Context::AddNewIdentifier(TokenView name)
+{
+    return utils::AddNewIdentifier(name, m_identifiers);
+}
+
+TokenNumber Context::AddNewConstant(TokenView name)
+{
+    return utils::AddNewConstant(name, m_constants);
 }

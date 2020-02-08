@@ -12,6 +12,7 @@ enum class Categories
     StartManySymbolSeparator = 4,
     StartComment             = 5,
     ErrorSymbol              = 6,
+    ScipSymbol               = 100, ///special case for \r
 };
 ///using in Comment
 enum class ParsingState
@@ -20,10 +21,10 @@ enum class ParsingState
     Error = 1
 };
 using Code = int;
-using Name = std::string;
+using TokenName = std::string;
 using SymbolsString = std::string;
 using SymbolsCategories = std::map<Code, Categories>;
-using NameToCodeMap = std::map<Name, Code>;
+using TokenNameToCodeMap = std::map<TokenName, Code>;
 using Symbol = char;
 using OptionalSymbol = std::optional<char>;
 using OptionalSymbolsString = std::optional<SymbolsString>;
@@ -33,3 +34,5 @@ using TokenLine = unsigned int;
 using TokenColumn = unsigned int;
 using TokenInfo = std::tuple<TokenNumber, TokenLine, TokenColumn>;
 using TokensInfoVector = std::vector<TokenInfo>;
+using TokenView = std::string_view;
+using StringVector = std::vector<std::string>;

@@ -3,23 +3,33 @@
 #include "TypesFmd.h"
 #include "../Context.h"
 
-constexpr auto CharToInt(char value)
+namespace utils
 {
-    return static_cast<int>(value);
-}
-
-SymbolsCategories CreateSymbolsCategories();
-
-NameToCodeMap CreateKeywordsMap();
-
-Categories GetSymbolCategories(Symbol symbol, const Context& context);
-
-constexpr auto incrementLineIfNeed(Symbol symbol, TokenLine& line, TokenColumn& column)
-{
-    if (symbol == '\n' || symbol=='\r')
+    constexpr auto CharToInt(char value)
     {
-        ++line;
-        column = 0;
+        return static_cast<int>(value);
+    }
+
+    SymbolsCategories CreateSymbolsCategories();
+
+    TokenNameToCodeMap CreateKeywordsMap();
+
+    TokenNumber AddNewIdentifier(TokenView name, TokenNameToCodeMap& identifiers);
+    TokenNumber AddNewConstant(TokenView name, TokenNameToCodeMap& constants);
+
+    Categories GetSymbolCategories(Symbol symbol, const Context& context);
+
+    constexpr auto incrementLineIfNeed(Symbol symbol, TokenLine& line, TokenColumn& column)
+    {
+        if (symbol == '\n' || symbol=='\r')
+        {
+            ++line;
+            column = 1;
+            return true;
+        }
+        return false;
     }
 }
+
+
 

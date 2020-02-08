@@ -14,7 +14,7 @@ Symbol Digit::ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& co
     while ( file.get(currentSymbol))
     {
         ++column;
-        if(GetSymbolCategories(currentSymbol, m_context) != Categories::StartConstant)
+        if(utils::GetSymbolCategories(currentSymbol, m_context) != Categories::StartConstant)
         {
             return currentSymbol;
         }
