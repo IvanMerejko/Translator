@@ -21,17 +21,22 @@ const TokenNameToCodeMap& Context::GetKeywords() const noexcept
     return m_keywords;
 }
 
+const TokenNameToCodeMap& Context::GetIdentifiers() const  noexcept
+{
+    return m_identifiers;
+}
+
 const TokenNameToCodeMap& Context::GetConstants() const  noexcept
 {
     return m_constants;
 }
 
-TokenNumber Context::AddNewIdentifier(TokenView name)
+TokenNumber Context::AddNewIdentifierIfNotExist(TokenView name)
 {
-    return utils::AddNewIdentifier(name, m_identifiers);
+    return utils::AddNewIdentifierIfNotExist(name, m_identifiers);
 }
 
-TokenNumber Context::AddNewConstant(TokenView name)
+TokenNumber Context::AddNewConstantIfNotExist(TokenView name)
 {
-    return utils::AddNewConstant(name, m_constants);
+    return utils::AddNewConstantIfNotExist(name, m_constants);
 }

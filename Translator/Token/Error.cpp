@@ -17,5 +17,5 @@ OptionalSymbolsString Error::GetParsedElementInString() const noexcept
 }
 ParsingState Error::GetElementParsingState() const noexcept
 {
-    return ParsingState::Normal;
+    return ParsingState::ErrorIncorrectSymbol;
 }

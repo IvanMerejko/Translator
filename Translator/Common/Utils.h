@@ -14,20 +14,25 @@ namespace utils
 
     TokenNameToCodeMap CreateKeywordsMap();
 
-    TokenNumber AddNewIdentifier(TokenView name, TokenNameToCodeMap& identifiers);
-    TokenNumber AddNewConstant(TokenView name, TokenNameToCodeMap& constants);
+    TokenNumber AddNewIdentifierIfNotExist(TokenView name, TokenNameToCodeMap& identifiers);
+    TokenNumber AddNewConstantIfNotExist(TokenView name, TokenNameToCodeMap& constants);
 
     Categories GetSymbolCategories(Symbol symbol, const Context& context);
 
     constexpr auto incrementLineIfNeed(Symbol symbol, TokenLine& line, TokenColumn& column)
     {
-        if (symbol == '\n' || symbol=='\r')
+        if (symbol == '\n')
         {
             ++line;
             column = 1;
             return true;
         }
         return false;
+    }
+
+    constexpr auto IsSpace(Symbol symbol)
+    {
+        return symbol == ' ' || symbol == '\n' || symbol == '\r';
     }
 }
 

@@ -37,9 +37,12 @@ Symbol Comment::ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& 
         {
             isSymbolBeginningOfEndOfCommentAlreadyExists = false;
         }
-        utils::incrementLineIfNeed(currentSymbol, line, column);
+        if(utils::incrementLineIfNeed(currentSymbol, line, column))
+        {
+            --column;
+        }
     }
-    m_parsingState = ParsingState::Error;
+    m_parsingState = ParsingState::ErrorUnclosedComment;
     return EOF;
 }
 OptionalSymbolsString Comment::GetParsedElementInString() const noexcept
@@ -49,12 +52,12 @@ OptionalSymbolsString Comment::GetParsedElementInString() const noexcept
 
 bool Comment::isBeginningEndComment(Symbol symbol) const noexcept
 {
-    return symbol == '>';
+    return symbol == '*';
 }
 
 bool Comment::isEndOfComment(Symbol symbol) const noexcept
 {
-    return symbol == '*';
+    return symbol == ')';
 }
 
 ParsingState Comment::GetElementParsingState() const noexcept

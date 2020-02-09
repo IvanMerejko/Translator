@@ -18,7 +18,10 @@ enum class Categories
 enum class ParsingState
 {
     Normal = 0,
-    Error = 1
+    ErrorUnclosedComment = 1,
+    ErrorIncorrectSymbol = 2,
+    ErrorIncorrectSymbolAfterIdentifier = 3,
+    ErrorIncorrectSymbolAfterConstant = 4
 };
 using Code = int;
 using TokenName = std::string;
@@ -32,7 +35,7 @@ using OptionalSymbolsString = std::optional<SymbolsString>;
 using TokenNumber = unsigned int;
 using TokenLine = unsigned int;
 using TokenColumn = unsigned int;
-using TokenInfo = std::tuple<TokenNumber, TokenLine, TokenColumn>;
+using TokenInfo = std::tuple<TokenName, TokenNumber, TokenLine, TokenColumn>;
 using TokensInfoVector = std::vector<TokenInfo>;
 using TokenView = std::string_view;
 using StringVector = std::vector<std::string>;

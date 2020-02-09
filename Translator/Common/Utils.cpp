@@ -11,7 +11,7 @@ namespace utils
         SymbolsCategories symbolsCategories
                 {
                         /// Comment
-                        {CharToInt('*'), Categories::StartComment},
+                        {CharToInt('('), Categories::StartComment},
                         /// White space
                         {CharToInt(' '), Categories::WhiteSpace},
                         {CharToInt('\n'), Categories::WhiteSpace},
@@ -117,17 +117,28 @@ namespace utils
         return Categories::ErrorSymbol;
     }
 
-    TokenNumber AddNewIdentifier(TokenView name, TokenNameToCodeMap& identifiers)
+    TokenNumber AddNewIdentifierIfNotExist(TokenView name, TokenNameToCodeMap& identifiers)
     {
         static auto number = IdentifiersNumberStart;
+        const auto it = identifiers.find(name.data());
+        if(it != identifiers.end())
+        {
+            return it->second;
+        }
         identifiers.insert({name.data(), ++number});
         return number;
     }
 
-    TokenNumber AddNewConstant(TokenView name, TokenNameToCodeMap& constants)
+    TokenNumber AddNewConstantIfNotExist(TokenView name, TokenNameToCodeMap& constants)
     {
         static auto number = ConstantsNumberStart;
+        const auto it = constants.find(name.data());
+        if(it != constants.end())
+        {
+            return it->second;
+        }
         constants.insert({name.data(), ++number});
         return number;
     }
 }
+

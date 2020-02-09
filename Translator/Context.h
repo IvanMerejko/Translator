@@ -12,8 +12,8 @@ public:
     const TokenNameToCodeMap& GetKeywords() const noexcept;
     const TokenNameToCodeMap& GetIdentifiers() const noexcept;
     const TokenNameToCodeMap& GetConstants() const noexcept;
-    TokenNumber AddNewIdentifier(TokenView name);
-    TokenNumber AddNewConstant(TokenView name);
+    TokenNumber AddNewIdentifierIfNotExist(TokenView name);
+    TokenNumber AddNewConstantIfNotExist(TokenView name);
 private:
     SymbolsCategories m_symbolCategories;
     TokenNameToCodeMap m_keywords;

@@ -21,6 +21,10 @@ Symbol Identifier::ParseElement(std::ifstream& file, TokenLine& line, TokenColum
             m_identifier.append(1, currentSymbol);
             continue;
         }
+        if(!utils::IsSpace(currentSymbol))
+        {
+            m_parsingState = ParsingState::ErrorIncorrectSymbolAfterIdentifier;
+        }
         return currentSymbol;
     }
     return EOF;
@@ -33,5 +37,5 @@ OptionalSymbolsString Identifier::GetParsedElementInString() const noexcept
 
 ParsingState Identifier::GetElementParsingState() const noexcept
 {
-    return ParsingState::Normal;
+    return m_parsingState;
 }

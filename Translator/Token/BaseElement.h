@@ -9,7 +9,7 @@ public:
     BaseElement() = default;
     explicit BaseElement(const Context& context)
         : m_context{context}
-        , m_parsingState{}{};
+        , m_parsingState{ParsingState::Normal}{};
 
     virtual Symbol ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& column) = 0;
     virtual OptionalSymbolsString GetParsedElementInString() const noexcept = 0;
