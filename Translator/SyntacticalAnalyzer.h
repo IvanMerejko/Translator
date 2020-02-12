@@ -1,0 +1,14 @@
+//
+// Created by Ivan on 12.02.2020.
+//
+
+#ifndef TRANSLATOR_SYNTACTICALANALYZER_H
+#define TRANSLATOR_SYNTACTICALANALYZER_H
+
+
+class SyntacticalAnalyzer {
+
+};
+
+
+#endif //TRANSLATOR_SYNTACTICALANALYZER_H
