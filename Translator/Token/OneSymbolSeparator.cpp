@@ -1,6 +1,3 @@
-//
-// Created by Ivan on 06.02.2020.
-//
 
 #include "OneSymbolSeparator.h"
 #include <fstream>

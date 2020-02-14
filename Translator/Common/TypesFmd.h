@@ -3,25 +3,30 @@
 #include <optional>
 #include <memory>
 #include <vector>
+
 enum class Categories
 {
     WhiteSpace               = 0,
     StartConstant            = 1,
     StartIdentifier          = 2,
-    OneSymbolSeparator        = 3,
-    StartManySymbolSeparator = 4,
+    OneSymbolSeparator       = 3,
     StartComment             = 5,
     ErrorSymbol              = 6,
-    ScipSymbol               = 100, ///special case for \r
+    SharpStart               = 7,
+    ScipSymbol               = 100, ///special ca
+/// Use for \r
 };
-///using in Comment
 enum class ParsingState
 {
     Normal = 0,
     ErrorUnclosedComment = 1,
     ErrorIncorrectSymbol = 2,
     ErrorIncorrectSymbolAfterIdentifier = 3,
-    ErrorIncorrectSymbolAfterConstant = 4
+    ErrorIncorrectSymbolAfterConstant = 4,
+    ErrorInParsingSharpTextMustBeLetter = 5,
+    ErrorInParsingSharpTextMustBePlus = 6,
+    ErrorInParsingSharpTextMustBeDigit = 7,
+    ErrorInParsingSharpTextMustBeStar = 8,
 };
 using Code = int;
 using TokenName = std::string;
@@ -39,3 +44,10 @@ using TokenInfo = std::tuple<TokenName, TokenNumber, TokenLine, TokenColumn>;
 using TokensInfoVector = std::vector<TokenInfo>;
 using TokenView = std::string_view;
 using StringVector = std::vector<std::string>;
+
+struct Info
+{
+    std::string m_name;
+    TokenLine m_line;
+    TokenColumn m_column;
+};

@@ -10,6 +10,7 @@ public:
             TokenLine line, TokenColumn column);
     static std::string createErrorStringOfIncorrectSymbolAfterIdentifier(Symbol symbol,
             TokenLine line, TokenColumn column);
+    static std::string createErrorStringOfErrorInSharpText(ParsingState state, TokenLine line, TokenColumn column);
 };
 
 

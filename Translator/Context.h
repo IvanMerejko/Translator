@@ -1,8 +1,5 @@
 #pragma once
-
-
 #include "Common/TypesFmd.h"
-
 class Context
 {
 public:

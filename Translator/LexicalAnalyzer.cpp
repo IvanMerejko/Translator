@@ -11,6 +11,7 @@
 #include "Token/Error.h"
 #include "Common/Constants.h"
 #include "Common/ErrorStringCreator.h"
+#include "Token/SharpTest.h"
 #include <memory>
 #include <string>
 #include <algorithm>
@@ -39,8 +40,10 @@ void LexicalAnalyzer::StartAnalyze(std::string_view file_name)
             auto isNotCommentStartSecondSymbol = specialCaseForCommentStart(file, endTokenPosition);
             if( isNotCommentStartSecondSymbol )
             {
-                currentSymbol = *isNotCommentStartSecondSymbol;
-                continue;
+                m_errors.emplace_back(
+                        ErrorStringCreator::createErrorStringOfIncorrectSymbol(currentSymbol,
+                                currentLine, startTokenPosition));
+                break;
             }
         }
         const auto tokenPointer = getElementPointer(currentSymbol, symbolCategory);
@@ -86,6 +89,8 @@ UpElement LexicalAnalyzer::getElementPointer(Symbol currentSymbol,Categories cat
             return std::make_unique<Comment>(m_context);
         case Categories::OneSymbolSeparator:
             return std::make_unique<OneSymbolSeparator>(currentSymbol, m_context);
+        case Categories::SharpStart:
+            return std::make_unique<SharpTest>(m_context);
         case Categories::ErrorSymbol:
             return std::make_unique<Error>(m_context);
     }
@@ -113,6 +118,7 @@ TokenNumber LexicalAnalyzer::getTokenNumber(const TokenName& name, Categories ca
             return getIdentifierNumber(name);
         case Categories::StartConstant:
             return getConstantNumber(name);
+
         default:
             return 0;
     }
@@ -121,14 +127,14 @@ TokenNumber LexicalAnalyzer::getTokenNumber(const TokenName& name, Categories ca
 TokenNumber LexicalAnalyzer::getIdentifierNumber(const TokenName& name) noexcept
 {
     const auto& keywords = m_context.GetKeywords();
-    auto tmp = name;
-    std::transform(tmp.begin(), tmp.end(), tmp.begin(), tolower);
-    const auto it = keywords.find(tmp);
+//    auto tmp = name;
+//    std::transform(tmp.begin(), tmp.end(), tmp.begin(), tolower);
+    const auto it = keywords.find(name);
     if(it != keywords.end())
     {
         return it->second;
     }
-    return m_context.AddNewIdentifierIfNotExist(tmp);
+    return m_context.AddNewIdentifierIfNotExist(name);
 }
 TokenNumber LexicalAnalyzer::getOneSymbolSeparatorNumber(Symbol symbol) const noexcept
 {
@@ -171,5 +177,27 @@ OptionalSymbolsString LexicalAnalyzer::isParsingStateNormal(ParsingState state, 
             return ErrorStringCreator::createErrorStringOfIncorrectSymbolAfterConstant(endSymbol, line, columnEnd);
         case ParsingState::ErrorIncorrectSymbolAfterIdentifier:
             return ErrorStringCreator::createErrorStringOfIncorrectSymbolAfterIdentifier(endSymbol, line, columnEnd);
+        case ParsingState::ErrorInParsingSharpTextMustBeLetter:
+            return ErrorStringCreator::createErrorStringOfErrorInSharpText(ParsingState::ErrorInParsingSharpTextMustBeLetter,
+                    line, columnEnd);
+        case ParsingState::ErrorInParsingSharpTextMustBePlus:
+            return ErrorStringCreator::createErrorStringOfErrorInSharpText(ParsingState::ErrorInParsingSharpTextMustBePlus,
+                                                                           line, columnEnd);
+        case ParsingState::ErrorInParsingSharpTextMustBeDigit:
+            return ErrorStringCreator::createErrorStringOfErrorInSharpText(ParsingState::ErrorInParsingSharpTextMustBeDigit,
+                                                                           line, columnEnd);
+        case ParsingState::ErrorInParsingSharpTextMustBeStar:
+            return ErrorStringCreator::createErrorStringOfErrorInSharpText(ParsingState::ErrorInParsingSharpTextMustBeStar,
+                                                                           line, columnEnd);
     }
+}
+
+const TokensInfoVector& LexicalAnalyzer::GetTokensInfoVector() const noexcept
+{
+    return m_tokensInfoVector;
+}
+
+const Context& LexicalAnalyzer::GetContext() const noexcept
+{
+    return m_context;
 }

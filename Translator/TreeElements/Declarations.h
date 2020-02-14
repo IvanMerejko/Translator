@@ -10,8 +10,8 @@
 struct Declarations : public BaseTreeElement
 {
     Declarations(const Context& context);
-    OptionalSymbolsString operator()(const TokensInfoVector& tokens, int& currentToken);
-
+    bool operator()(const TokensInfoVector& tokens, int& currentToken);
+    void Print();
 private:
     MathFunctionDeclaration m_mathFunctionDeclaration;
 };

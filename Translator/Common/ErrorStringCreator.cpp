@@ -1,6 +1,3 @@
-//
-// Created by Ivan on 08.02.2020.
-//
 
 #include "ErrorStringCreator.h"
 #include "Constants.h"
@@ -53,5 +50,19 @@ std::string ErrorStringCreator::createErrorStringOfIncorrectSymbolAfterIdentifie
             .append(IncorrectSymbolAfterIdentifierString)
             .append(1, symbol)
             .append(MustBeSpaceString);
+    return text;
+}
+
+std::string ErrorStringCreator::createErrorStringOfErrorInSharpText(ParsingState state, TokenLine line, TokenColumn column)
+{
+    std::string text = LineString;
+    auto error = state == ParsingState::ErrorInParsingSharpTextMustBeLetter ? MustBeLetterString :
+                 state == ParsingState::ErrorInParsingSharpTextMustBeDigit  ? MustBeDigitString :
+                 state == ParsingState::ErrorInParsingSharpTextMustBePlus ? MustBePlusString : MustBeStarString;
+    text.append(std::to_string(line))
+            .append(ColumnString)
+            .append(std::to_string(column))
+            .append(ErrorString)
+            .append(error);
     return text;
 }

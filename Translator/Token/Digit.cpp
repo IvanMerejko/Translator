@@ -16,10 +16,10 @@ Symbol Digit::ParseElement(std::ifstream& file, TokenLine& line, TokenColumn& co
         ++column;
         if(utils::GetSymbolCategories(currentSymbol, m_context) != Categories::StartConstant)
         {
-            if(!utils::IsSpace(currentSymbol))
+            /*if(!utils::IsSpace(currentSymbol))
             {
                 m_parsingState = ParsingState::ErrorIncorrectSymbolAfterConstant;
-            }
+            }*/
             return currentSymbol;
         }
         m_digit.append(1, currentSymbol);

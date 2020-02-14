@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include "TypesFmd.h"
 #include "../Context.h"
 
@@ -34,6 +35,7 @@ namespace utils
     {
         return symbol == ' ' || symbol == '\n' || symbol == '\r';
     }
+    void PrintSeparator(int step);
 }
 
 

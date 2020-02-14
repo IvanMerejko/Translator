@@ -1,14 +1,12 @@
-//
-// Created by Ivan on 12.02.2020.
-//
+#pragma once
 
-#ifndef TRANSLATOR_STATEMENTLIST_H
-#define TRANSLATOR_STATEMENTLIST_H
+#include "BaseTreeElement.h"
+#include "Declarations.h"
 
+struct StatementList : public BaseTreeElement
+{
+    StatementList(const Context& context);
 
-class StatementList {
 
 };
 
-
-#endif //TRANSLATOR_STATEMENTLIST_H

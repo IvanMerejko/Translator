@@ -5,7 +5,7 @@ FunctionCharacteristic::FunctionCharacteristic(const Context& context)
     : BaseTreeElement{context}
 {}
 
-OptionalSymbolsString FunctionCharacteristic::operator()(const TokensInfoVector& tokens, int& currentToken)
+bool FunctionCharacteristic::operator()(const TokensInfoVector& tokens, int& currentToken)
 {
 
 }

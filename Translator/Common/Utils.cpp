@@ -98,10 +98,10 @@ namespace utils
         auto start = KeywordsNumberStart;
         TokenNameToCodeMap map
                 {
-                        {"program", ++start},
-                        {"deffunc", ++start},
-                        {"begin", ++start},
-                        {"end", ++start}
+                        {ProgramString, ++start},
+                        {DeffuncString, ++start},
+                        {BeginString, ++start},
+                        {EndString, ++start}
                 };
         return map;
     }
@@ -139,6 +139,13 @@ namespace utils
         }
         constants.insert({name.data(), ++number});
         return number;
+    }
+    void PrintSeparator(int step)
+    {
+        for(int i = 0 ; i < step ; ++i)
+        {
+            std::cout << "_ ";
+        }
     }
 }
 

@@ -4,7 +4,7 @@
 struct FunctionCharacteristic : public BaseTreeElement
 {
     FunctionCharacteristic(const Context& context);
-    OptionalSymbolsString operator()(const TokensInfoVector& tokens, int& currentToken);
+    bool operator()(const TokensInfoVector& tokens, int& currentToken);
 };
 
 

@@ -1,7 +1,3 @@
-//
-// Created by ivanm on 2/5/2020.
-//
-
 #include "Comment.h"
 #include "BaseElement.h"
 #include "../Common/Utils.h"
