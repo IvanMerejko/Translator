@@ -36,6 +36,13 @@ namespace utils
         return symbol == ' ' || symbol == '\n' || symbol == '\r';
     }
     void PrintSeparator(int step);
+    void PrintProcedureIdentifier(int count, TokenNumber number,const TokenName& name);
+    void PrintFunctionIdentifier(int count, TokenNumber number,const TokenName& name);
+    void PrintIdentifier(int count, TokenNumber number,const TokenName& name);
+    void PrintConstant(int count, TokenNumber number,const TokenName& name);
+    void PrintUnsignedInteger(int count, TokenNumber number,const TokenName& name);
+    void PrintEmpty(int count);
+    void ThrowException(const std::string& text, const TokensInfoVector& tokens, int currentToken);
 }
 
 

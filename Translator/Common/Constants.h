@@ -16,6 +16,14 @@ constexpr auto MustBeLetterString = " Must be letter.";
 constexpr auto MustBeDigitString = " Must be digit.";
 constexpr auto MustBePlusString = " Must be plus.";
 constexpr auto MustBeStarString = " Must be star.";
+constexpr auto MustBeProgramString = " Must be PROGRAM.";
+constexpr auto MustBeIdentifierString = " Must be identifier.";
+constexpr auto MustBeConstantString = " Must be constant.";
+constexpr auto MustBeUnsignedIntegerString = " Must be unsigned integer.";
+constexpr auto MustBeSemicolonString = " Must be semicolon.";
+constexpr auto MustBeAssignmentSymbolString = " Must be assignment symbol.";
+constexpr auto MustBeBeginString = " Must be BEGIN.";
+constexpr auto MustBeEndString = " Must be END.";
 
 constexpr auto ProgramString = "PROGRAM";
 constexpr auto DeffuncString = "DEFFUNC";

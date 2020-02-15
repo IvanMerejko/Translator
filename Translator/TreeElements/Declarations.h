@@ -11,7 +11,7 @@ struct Declarations : public BaseTreeElement
 {
     Declarations(const Context& context);
     bool operator()(const TokensInfoVector& tokens, int& currentToken);
-    void Print();
+    void Print(int count);
 private:
     MathFunctionDeclaration m_mathFunctionDeclaration;
 };

@@ -1,0 +1,7 @@
+PROGRAM  name ;
+DEFFUNC
+some = 12 \ 34 , 56
+some2 = 123 \ 456 , 789
+some3 = 795713 \ 4394 , 428
+BEGIN
+END

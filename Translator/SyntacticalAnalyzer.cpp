@@ -3,6 +3,7 @@
 //
 
 #include "SyntacticalAnalyzer.h"
+#include "Common/ParsingException.h"
 
 
 SyntacticalAnalyzer::SyntacticalAnalyzer(const Context& context, const TokensInfoVector& tokensInfoVector)
@@ -13,6 +14,16 @@ SyntacticalAnalyzer::SyntacticalAnalyzer(const Context& context, const TokensInf
 void SyntacticalAnalyzer::StartAnalyze()
 {
     int start{0};
-    m_signalProgram(m_tokensInfoVector, start);
-    m_signalProgram.Print(0);
+    try
+    {
+        m_signalProgram(m_tokensInfoVector, start);
+        m_signalProgram.Print(0);
+    }
+    catch (const ParsingException& error)
+    {
+        m_signalProgram.Print(0);
+        std::cout << "\n\n" << error.what();
+    }
+
+
 }

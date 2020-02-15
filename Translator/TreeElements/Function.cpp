@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include "Function.h"
+#include "../Common/ParsingException.h"
+#include "../Common/Constants.h"
 
 
 Function::Function(const Context& context)
@@ -9,23 +11,24 @@ Function::Function(const Context& context)
     , m_functionCharacteristic{context}
     , m_params{}
 {}
-bool Function::operator()(const TokensInfoVector& tokens, int& currentToken)
+void Function::operator()(const TokensInfoVector& tokens, int& currentToken)
 {
     if (!checkIdentifier(tokens, currentToken))
     {
-        return false;
+        utils::ThrowException(MustBeIdentifierString, tokens, currentToken);
     }
     m_params.m_identifier = tokens[currentToken++];
     if (!checkSymbol(tokens, currentToken))
     {
-        return false;
+        utils::ThrowException(MustBeAssignmentSymbolString, tokens, currentToken);
     }
     m_params.m_symbol = tokens[currentToken++];
     if (!checkConstant(tokens, currentToken))
     {
-        return false;
+        utils::ThrowException(MustBeConstantString, tokens, currentToken);
     }
     m_params.m_constant = tokens[currentToken++];
+    m_functionCharacteristic(tokens, currentToken);
 }
 
 bool Function::checkIdentifier(const TokensInfoVector& tokens, int& currentToken) const
@@ -46,25 +49,26 @@ bool Function::checkConstant(const TokensInfoVector& tokens, int& currentToken) 
     return constant.find(tokenName) != constant.end();
 }
 
-void Function::Print()
+void Function::Print(int count)
 {
+    utils::PrintSeparator(count);
     std::cout << "<function>\n";
     {
-        std::cout << "<procedure-ident>\n";
         const auto& [tokenName, tokenNumber, line, column] = m_params.m_identifier;
-        std::cout << tokenNumber << " " << tokenName << '\n';
-        std::cout << "<procedure-ident>\n";
+        utils::PrintFunctionIdentifier(count + 3, tokenNumber, tokenName);
+        count += 3;
     }
     {
+        utils::PrintSeparator(count);
         const auto& [tokenName, tokenNumber, line, column] = m_params.m_symbol;
         std::cout << tokenNumber << " " << tokenName << '\n';
     }
     {
-        std::cout << "<unsigned-integer>\n";
         const auto& [tokenName, tokenNumber, line, column] = m_params.m_constant;
-        std::cout << tokenNumber << " " << tokenName << '\n';
-        std::cout << "<unsigned-integer>\n";
+        utils::PrintConstant(count, tokenNumber, tokenName);
     }
-//    m_functionList.Print();
+    m_functionCharacteristic.Print(count);
+    count -= 3;
+    utils::PrintSeparator(count);
     std::cout << "<function>\n";
 }

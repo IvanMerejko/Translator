@@ -14,32 +14,14 @@ struct MathFunctionDeclaration : public BaseTreeElement
     };
     MathFunctionDeclaration(const Context& context);
 
-    template<typename T>
-    typename std::enable_if_t<std::is_same_v<T, FunctionList>, bool>
-    operator()(const TokensInfoVector& tokens, int& currentToken)
-    {
-        if(!checkDeffunc(tokens, currentToken))
-        {
-            return false;
-        }
-        m_params.m_deffunc = tokens[currentToken++];
-        if(m_functionList.operator()<Function>(tokens, currentToken))
-        {
-            m_functionList.operator()<Empty>(tokens, currentToken);
-        }
-    }
+    void operator()(const TokensInfoVector& tokens, int& currentToken);
 
-    template<typename T>
-    typename std::enable_if_t<std::is_same_v<T, Empty>, bool>
-    operator()(const TokensInfoVector& tokens, int& currentToken)
-    {
-
-    }
-    void Print();
+    void Print(int count);
 
 private:
     bool checkDeffunc(const TokensInfoVector& tokens, int& currentToken);
 private:
+    bool m_isEmpty;
     Params m_params;
     FunctionList m_functionList;
 };

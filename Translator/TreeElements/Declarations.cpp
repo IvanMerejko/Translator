@@ -11,15 +11,15 @@ Declarations::Declarations(const Context& context)
 {}
 bool Declarations::operator()(const TokensInfoVector& tokens, int& currentToken)
 {
-    if ( !m_mathFunctionDeclaration.operator()<FunctionList>(tokens, currentToken) )
-    {
-        m_mathFunctionDeclaration.operator()<Empty>(tokens, currentToken);
-    }
+    m_mathFunctionDeclaration(tokens, currentToken);
+    return true;
 }
 
-void Declarations::Print()
+void Declarations::Print(int count)
 {
+    utils::PrintSeparator(count);
     std::cout << "<declaration>\n";
-    m_mathFunctionDeclaration.Print();
+    m_mathFunctionDeclaration.Print(count + 3);
+    utils::PrintSeparator(count);
     std::cout << "<declaration>\n";
 }

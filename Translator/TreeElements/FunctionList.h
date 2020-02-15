@@ -7,25 +7,20 @@
 
 struct FunctionList : public BaseTreeElement
 {
+    using FunctionListPtr = std::shared_ptr<FunctionList>;
     explicit FunctionList(const Context& context);
 
-    template<typename T>
-    typename std::enable_if_t<std::is_same_v<T, Function>, bool>
-            operator()(const TokensInfoVector& tokens, int& currentToken)
-    {
-        m_function(tokens, currentToken);
-    }
+    bool operator()(const TokensInfoVector& tokens, int& currentToken);
 
-    template<typename T>
-    typename std::enable_if_t<std::is_same_v<T, Empty>, bool>
-        operator()(const TokensInfoVector& tokens, int& currentToken)
-    {
 
-    }
 
-    void Print();
+    void Print(int count);
 
 private:
+    bool checkIdentifier(const TokensInfoVector& tokens, int& currentToken) const;
+private:
+    bool m_isEmpty;
+    FunctionListPtr m_nextFunctionList;
     Function m_function;
 };
 

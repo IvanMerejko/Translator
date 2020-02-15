@@ -2,6 +2,7 @@
 #include "TypesFmd.h"
 #include "Constants.h"
 #include "../Context.h"
+#include "ParsingException.h"
 
 namespace utils
 {
@@ -146,6 +147,58 @@ namespace utils
         {
             std::cout << "_ ";
         }
+    }
+    void PrintProcedureIdentifier(int count, TokenNumber number,const TokenName& name)
+    {
+        PrintSeparator(count+3);
+        std::cout << "<procedure-identifier>\n";
+        PrintIdentifier(count + 3, number, name);
+        PrintSeparator(count+3);
+        std::cout << "<procedure-identifier>\n";
+    }
+    void PrintFunctionIdentifier(int count, TokenNumber number,const TokenName& name)
+    {
+        PrintSeparator(count);
+        std::cout << "<function-identifier>\n";
+        PrintIdentifier(count, number, name);
+        PrintSeparator(count);
+        std::cout << "<function-identifier>\n";
+    }
+    void PrintIdentifier(int count, TokenNumber number,const TokenName& name)
+    {
+        PrintSeparator(count+3);
+        std::cout << "<identifier>\n";
+        PrintSeparator(count+6);
+        std::cout << number << " " << name << "\n";
+        PrintSeparator(count+3);
+        std::cout << "<identifier>\n";
+    }
+    void PrintEmpty(int count)
+    {
+        PrintSeparator(count);
+        std::cout << "<empty>\n";
+    }
+    void PrintUnsignedInteger(int count, TokenNumber number,const TokenName& name)
+    {
+        PrintSeparator(count);
+        std::cout << "<unsigned-integer>\n";
+        PrintSeparator(count+3);
+        std::cout << number << " " << name << "\n";
+        PrintSeparator(count);
+        std::cout << "<unsigned-integer>\n";
+    }
+    void PrintConstant(int count, TokenNumber number,const TokenName& name)
+    {
+        PrintSeparator(count);
+        std::cout << "<constant>\n";
+        PrintUnsignedInteger(count + 3, number, name);
+        PrintSeparator(count);
+        std::cout << "<constant>\n";
+    }
+    void ThrowException(const std::string& text, const TokensInfoVector& tokens, int currentToken)
+    {
+        const auto& [tokenName, tokenNumber, line, column] = tokens[currentToken];
+        throw ParsingException(text, line, column, tokenName);
     }
 }
 

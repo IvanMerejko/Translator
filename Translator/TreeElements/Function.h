@@ -12,8 +12,8 @@ struct Function : public BaseTreeElement
         TokenInfo m_constant;
     };
     Function(const Context& context);
-    bool operator()(const TokensInfoVector& tokens, int& currentToken);
-    void Print();
+    void operator()(const TokensInfoVector& tokens, int& currentToken);
+    void Print(int count);
 
 private:
     bool checkIdentifier(const TokensInfoVector& tokens, int& currentToken) const;
