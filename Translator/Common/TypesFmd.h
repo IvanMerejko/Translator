@@ -28,6 +28,24 @@ enum class ParsingState
     ErrorInParsingSharpTextMustBeDigit = 7,
     ErrorInParsingSharpTextMustBeStar = 8,
 };
+
+enum class ErrorInKnutTable
+{
+    ExpectedProgram = 0,
+    ExpectedIdentifier = 1,
+    ExpectedSemicolon = 2,
+    ExpectedBegin = 3,
+    ExpectedEnd = 4,
+    ExpectedDot = 5,
+    ExpectedDeffunc = 6,
+    ExpectedEqualSymbol = 7,
+    ExpectedConstant = 8,
+    ExpectedUnsignedInteger = 9,
+    ExpectedDivisionSymbol = 10,
+    ExpectedComma = 11,
+    ExpectedEmptyStatementList = 12,
+    ExpectedEOF = 13,
+};
 using Code = int;
 using TokenName = std::string;
 using SymbolsString = std::string;
@@ -41,6 +59,7 @@ using TokenNumber = unsigned int;
 using TokenLine = unsigned int;
 using TokenColumn = unsigned int;
 using TokenInfo = std::tuple<TokenName, TokenNumber, TokenLine, TokenColumn>;
+using OptionalTokenInfo = std::optional<TokenInfo>;
 using TokensInfoVector = std::vector<TokenInfo>;
 using TokenView = std::string_view;
 using StringVector = std::vector<std::string>;

@@ -57,24 +57,42 @@ void FunctionCharacteristic::Print(int count)
 {
     utils::PrintSeparator(count);
     std::cout << "<function-сharacteristic>\n";
+    if(m_params.m_firstSymbol)
     {
         utils::PrintSeparator(count+3);
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_firstSymbol;
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_firstSymbol;
         std::cout << tokenNumber << " " << tokenName << '\n';
     }
+    else
     {
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_firstUnsignedInteger;
+        return;
+    }
+    if(m_params.m_firstUnsignedInteger)
+    {
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_firstUnsignedInteger;
         utils::PrintUnsignedInteger(count+3, tokenNumber, tokenName);
     }
+    else
+    {
+        return;
+    }
+    if(m_params.m_secondSymbol)
     {
         utils::PrintSeparator(count+3);
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_secondSymbol;
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_secondSymbol;
         std::cout << tokenNumber << " " << tokenName << '\n';
     }
+    else
     {
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_secondUnsignedInteger;
+        return;
+    }
+    if(m_params.m_secondUnsignedInteger)
+    {
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_secondUnsignedInteger;
         utils::PrintUnsignedInteger(count+3, tokenNumber, tokenName);
     }
-    utils::PrintSeparator(count);
-    std::cout << "<function-сharacteristic>\n";
+    else
+    {
+        return;
+    }
 }

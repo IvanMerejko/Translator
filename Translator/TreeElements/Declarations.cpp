@@ -20,6 +20,4 @@ void Declarations::Print(int count)
     utils::PrintSeparator(count);
     std::cout << "<declaration>\n";
     m_mathFunctionDeclaration.Print(count + 3);
-    utils::PrintSeparator(count);
-    std::cout << "<declaration>\n";
 }

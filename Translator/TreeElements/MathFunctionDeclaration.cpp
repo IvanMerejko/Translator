@@ -17,20 +17,23 @@ void MathFunctionDeclaration::Print(int count)
     if(m_isEmpty)
     {
         utils::PrintEmpty(count+3);
+        count += 3;
     }
     else
     {
+        if(m_params.m_deffunc)
         {
-            const auto& [tokenName, tokenNumber, line, column] = m_params.m_deffunc;
+            const auto& [tokenName, tokenNumber, line, column] = *m_params.m_deffunc;
             utils::PrintSeparator(count+3);
             std::cout << tokenNumber << " " << tokenName << '\n';
             count += 3;
         }
+        else
+        {
+            return;
+        }
         m_functionList.Print(count+3);
     }
-    count -= 3;
-    utils::PrintSeparator(count);
-    std::cout << "<math-function-declaration>\n";
 }
 
 bool MathFunctionDeclaration::checkDeffunc(const TokensInfoVector& tokens, int& currentToken)
@@ -46,6 +49,7 @@ void MathFunctionDeclaration::operator()(const TokensInfoVector &tokens, int &cu
     if(!checkDeffunc(tokens, currentToken))
     {
         m_isEmpty = true;
+        return;
     }
     m_params.m_deffunc = tokens[currentToken++];
     m_functionList(tokens, currentToken);

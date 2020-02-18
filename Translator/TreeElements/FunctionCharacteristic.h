@@ -5,10 +5,10 @@ struct FunctionCharacteristic : public BaseTreeElement
 {
     struct Params
     {
-        TokenInfo m_firstSymbol;
-        TokenInfo m_firstUnsignedInteger;
-        TokenInfo m_secondSymbol;
-        TokenInfo m_secondUnsignedInteger;
+        OptionalTokenInfo m_firstSymbol;
+        OptionalTokenInfo m_firstUnsignedInteger;
+        OptionalTokenInfo m_secondSymbol;
+        OptionalTokenInfo m_secondUnsignedInteger;
     };
     FunctionCharacteristic(const Context& context);
     void operator()(const TokensInfoVector& tokens, int& currentToken);

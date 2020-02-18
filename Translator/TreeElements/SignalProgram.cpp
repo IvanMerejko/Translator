@@ -19,5 +19,4 @@ void SignalProgram::Print(int step)
 {
     std::cout  << "<signal-program>\n";
     m_program.Print(step + 3);
-    std::cout << "<signal-program>\n";
 }

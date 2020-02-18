@@ -10,7 +10,7 @@ struct FunctionList : public BaseTreeElement
     using FunctionListPtr = std::shared_ptr<FunctionList>;
     explicit FunctionList(const Context& context);
 
-    bool operator()(const TokensInfoVector& tokens, int& currentToken);
+    void operator()(const TokensInfoVector& tokens, int& currentToken);
 
 
 

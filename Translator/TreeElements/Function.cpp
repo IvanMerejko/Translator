@@ -53,22 +53,36 @@ void Function::Print(int count)
 {
     utils::PrintSeparator(count);
     std::cout << "<function>\n";
+    if(m_params.m_identifier)
     {
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_identifier;
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_identifier;
         utils::PrintFunctionIdentifier(count + 3, tokenNumber, tokenName);
         count += 3;
     }
+    else
+    {
+        return;
+    }
+
+    if(m_params.m_symbol)
     {
         utils::PrintSeparator(count);
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_symbol;
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_symbol;
         std::cout << tokenNumber << " " << tokenName << '\n';
     }
+    else
     {
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_constant;
+        return;
+    }
+
+    if(m_params.m_constant)
+    {
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_constant;
         utils::PrintConstant(count, tokenNumber, tokenName);
     }
+    else
+    {
+        return;
+    }
     m_functionCharacteristic.Print(count);
-    count -= 3;
-    utils::PrintSeparator(count);
-    std::cout << "<function>\n";
 }

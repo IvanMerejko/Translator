@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "FunctionList.h"
+#include "../Common/Constants.h"
 
 FunctionList::FunctionList(const Context& context)
     : BaseTreeElement{context}
@@ -17,6 +18,7 @@ void FunctionList::Print(int count)
     if(m_isEmpty)
     {
         utils::PrintEmpty(count+3);
+        return;
     }
     else
     {
@@ -31,11 +33,7 @@ void FunctionList::Print(int count)
         utils::PrintSeparator(count+3);
         std::cout << "<function-list>\n";
         utils::PrintEmpty(count+3);
-        utils::PrintSeparator(count+3);
-        std::cout << "<function-list>\n";
     }
-    utils::PrintSeparator(count);
-    std::cout << "<function-list>\n";
 }
 bool FunctionList::checkIdentifier(const TokensInfoVector& tokens, int& currentToken) const
 {
@@ -44,12 +42,12 @@ bool FunctionList::checkIdentifier(const TokensInfoVector& tokens, int& currentT
     return identifiers.find(tokenName) != identifiers.end();
 }
 
-bool FunctionList::operator()(const TokensInfoVector &tokens, int &currentToken)
+void FunctionList::operator()(const TokensInfoVector &tokens, int &currentToken)
 {
     if(!checkIdentifier(tokens, currentToken))
     {
         m_isEmpty = true;
-        return false;
+        return;
     }
     m_function(tokens, currentToken);
     if(checkIdentifier(tokens, currentToken))

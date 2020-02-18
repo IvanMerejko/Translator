@@ -32,7 +32,7 @@ void Program::operator()(const TokensInfoVector& tokens, int& currentToken)
         utils::ThrowException(MustBeSemicolonString, tokens, currentToken);
     }
     m_params.m_symbol = tokens[currentToken++];
-    m_block.operator()<Declarations>(tokens, currentToken);
+    m_block(tokens, currentToken);
 }
 
 bool Program::checkStart(const TokensInfoVector& tokens, int& currentToken) const
@@ -59,22 +59,35 @@ void Program::Print(int step)
     utils::PrintSeparator(step);
     step += 3;
     std::cout << "<program>\n";
+    if(m_params.m_start)
     {
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_start;
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_start;
         utils::PrintSeparator(step);
         std::cout << tokenNumber << " " << tokenName << '\n';
     }
+    else
     {
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_procedureIdentifier;
+        return;
+    }
+    if(m_params.m_procedureIdentifier)
+    {
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_procedureIdentifier;
         utils::PrintProcedureIdentifier(step, tokenNumber, tokenName);
     }
+    else
     {
-        const auto& [tokenName, tokenNumber, line, column] = m_params.m_symbol;
+        return;
+    }
+    if(m_params.m_symbol)
+    {
+        const auto& [tokenName, tokenNumber, line, column] = *m_params.m_symbol;
         utils::PrintSeparator(step);
         std::cout << tokenNumber << " " << tokenName << '\n';
         step -= 3;
     }
+    else
+    {
+        return;
+    }
     m_block.Print(step+3);
-    utils::PrintSeparator(step);
-    std::cout << "<program>\n";
 }

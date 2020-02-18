@@ -85,9 +85,11 @@ namespace utils
                         {CharToInt('='),  Categories::OneSymbolSeparator},
                         {CharToInt(';'),  Categories::OneSymbolSeparator},
                         {CharToInt(','),  Categories::OneSymbolSeparator},
+                        {CharToInt('.'),  Categories::OneSymbolSeparator},
                         {CharToInt('\\'), Categories::OneSymbolSeparator},
 
                         {CharToInt('\r'), Categories::ScipSymbol},
+                        {CharToInt('\000'), Categories::ScipSymbol},
                 };
         return symbolsCategories;
     }
@@ -153,16 +155,12 @@ namespace utils
         PrintSeparator(count+3);
         std::cout << "<procedure-identifier>\n";
         PrintIdentifier(count + 3, number, name);
-        PrintSeparator(count+3);
-        std::cout << "<procedure-identifier>\n";
     }
     void PrintFunctionIdentifier(int count, TokenNumber number,const TokenName& name)
     {
         PrintSeparator(count);
         std::cout << "<function-identifier>\n";
         PrintIdentifier(count, number, name);
-        PrintSeparator(count);
-        std::cout << "<function-identifier>\n";
     }
     void PrintIdentifier(int count, TokenNumber number,const TokenName& name)
     {
@@ -170,8 +168,6 @@ namespace utils
         std::cout << "<identifier>\n";
         PrintSeparator(count+6);
         std::cout << number << " " << name << "\n";
-        PrintSeparator(count+3);
-        std::cout << "<identifier>\n";
     }
     void PrintEmpty(int count)
     {
@@ -184,16 +180,12 @@ namespace utils
         std::cout << "<unsigned-integer>\n";
         PrintSeparator(count+3);
         std::cout << number << " " << name << "\n";
-        PrintSeparator(count);
-        std::cout << "<unsigned-integer>\n";
     }
     void PrintConstant(int count, TokenNumber number,const TokenName& name)
     {
         PrintSeparator(count);
         std::cout << "<constant>\n";
         PrintUnsignedInteger(count + 3, number, name);
-        PrintSeparator(count);
-        std::cout << "<constant>\n";
     }
     void ThrowException(const std::string& text, const TokensInfoVector& tokens, int currentToken)
     {

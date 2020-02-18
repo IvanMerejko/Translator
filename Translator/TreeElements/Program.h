@@ -8,9 +8,9 @@ struct Program : public BaseTreeElement
 {
     struct Params
     {
-        TokenInfo m_start;
-        TokenInfo m_procedureIdentifier;
-        TokenInfo m_symbol;
+        OptionalTokenInfo m_start;
+        OptionalTokenInfo m_procedureIdentifier;
+        OptionalTokenInfo m_symbol;
     };
     Program(const Context& context);
     void operator()(const TokensInfoVector& tokens, int& currentToken);

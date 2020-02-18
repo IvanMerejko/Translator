@@ -10,7 +10,7 @@ struct MathFunctionDeclaration : public BaseTreeElement
 {
     struct Params
     {
-        TokenInfo m_deffunc;
+        OptionalTokenInfo m_deffunc;
     };
     MathFunctionDeclaration(const Context& context);
 

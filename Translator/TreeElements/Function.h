@@ -7,9 +7,10 @@ struct Function : public BaseTreeElement
 {
     struct Params
     {
-        TokenInfo m_identifier;
-        TokenInfo m_symbol;
-        TokenInfo m_constant;
+        Params() = default;
+        OptionalTokenInfo m_identifier;
+        OptionalTokenInfo m_symbol;
+        OptionalTokenInfo m_constant;
     };
     Function(const Context& context);
     void operator()(const TokensInfoVector& tokens, int& currentToken);
