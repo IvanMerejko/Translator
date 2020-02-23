@@ -69,12 +69,15 @@ private:
     bool isTerminal(const oneLine& lineInfo) const;
     std::optional<ErrorContext> parse(int currentLine, int& currentToken, NodePtr& node);
 	bool if_AT(int& currentLine, int& currentToken, NodePtr& node);
+	void treeNextRoot(NodePtr& node, int currentLine);
+	void writeError(const ErrorContext& context);
 private:
     Context m_context;
     TokensInfoVector m_tokensInfoVector;
     //SignalProgram m_signalProgram;
     Tree m_tree;
 	TablePtr m_table;
+	ErrorMap m_errorMap;
 };
 
 

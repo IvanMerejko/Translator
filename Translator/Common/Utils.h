@@ -3,6 +3,7 @@
 #include <iostream>
 #include "TypesFmd.h"
 #include "../Context.h"
+#include "../TreeElements/Tree.h"
 
 namespace utils
 {
@@ -43,6 +44,7 @@ namespace utils
     void PrintUnsignedInteger(int count, TokenNumber number,const TokenName& name);
     void PrintEmpty(int count);
     void ThrowException(const std::string& text, const TokensInfoVector& tokens, int currentToken);
+	int SpecialPrint(Address currentAddress, int count, NodePtr& node);
 }
 
 

@@ -12,7 +12,7 @@ void TestLexicalAnalyzer()
         return;
     }
     LexicalAnalyzer la;
-    la.StartAnalyze("C:\\Users\\Ivan\\Desktop\\KPI\\3 curs\\6-semestr\\Translator\\Translator\\TestData\\1.txt");
+    la.StartAnalyze("C:\\Users\\Ivan\\Desktop\\KPI\\3 curs\\6-semestr\\TranslatorVS\\TranslatorVS\\TestData\\1.txt");
     la.PrintResult();
     SyntacticalAnalyzer sa{la.GetContext(), la.GetTokensInfoVector()};
     sa.StartAnalyze();

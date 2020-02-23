@@ -3,6 +3,7 @@
 #include <optional>
 #include <memory>
 #include <vector>
+#include <string>
 
 enum class Categories
 {
@@ -29,6 +30,29 @@ enum class ParsingState
     ErrorInParsingSharpTextMustBeStar = 8,
 };
 
+
+
+enum Address
+{
+    SignalProgramE = 0,
+    ProgramE = 1,
+    BlockE = 6,
+    DeclarationsE = 11,
+    MathFunctionDeclarationE = 12,
+    FunctionListE = 15,
+    FunctionE = 18,
+    FunctionCharacteristicE = 23,
+    StatementListE = 27,
+	ProcedureIdentifierE = 100, 
+	WriteE = 101,
+	FunctionIdentifierE = 102,
+	ConstantE = 103,
+	UnsignedIntegerE = 104,
+	EmptyFunctionListE = 105,
+	EmptyStatementListE = 106,
+	EmptyMathFunctionDeclarationE = 107,
+};
+
 enum class ErrorInKnutTable
 {
     ExpectedProgram = 0,
@@ -46,6 +70,9 @@ enum class ErrorInKnutTable
     ExpectedEmptyStatementList = 12,
     ExpectedEOF = 13,
 };
+
+using ErrorMap = std::map<ErrorInKnutTable, std::string>;
+
 using Code = int;
 using TokenName = std::string;
 using SymbolsString = std::string;

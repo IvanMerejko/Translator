@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "../Context.h"
 #include "ParsingException.h"
+#include "../TreeElements/Tree.h"
 
 namespace utils
 {
@@ -192,5 +193,92 @@ namespace utils
         const auto& [tokenName, tokenNumber, line, column] = tokens[currentToken];
         throw ParsingException(text, line, column, tokenName);
     }
+	int SpecialPrint(Address currentAddress, int count, NodePtr& node)
+	{
+		switch (currentAddress)
+		{
+		case SignalProgramE:
+			std::cout << "<signal-program>\n";
+			count += 3;
+			PrintSeparator(count);
+			std::cout << "<program>\n";
+			break;
+		case ProgramE:
+			std::cout << "<program>\n";
+			break;
+		case BlockE:
+			std::cout << "<block>\n";
+			break;
+		case DeclarationsE:
+			std::cout << "<declarations>\n";
+			count += 3;
+			if (node->m_child && *node->m_child->m_address != MathFunctionDeclarationE)
+			{
+				PrintSeparator(count);
+				std::cout << "<math-function-declaration>\n";
+			}
+			break;
+		case MathFunctionDeclarationE:
+			std::cout << "<math-function-declaration>\n";
+			PrintEmpty(count + 3);
+			break;
+		case FunctionListE:
+			std::cout << "<function-list>\n";
+			break;
+		case FunctionE:
+			std::cout << "<function>\n";
+			break;
+		case FunctionCharacteristicE:
+			std::cout << "<function-characteristic>\n";
+			break;
+		case StatementListE:
+			std::cout << "<statement-list>\n";
+			break;
+		case ProcedureIdentifierE:
+			std::cout << "<procedure-identifier>\n";
+			PrintSeparator(count + 3);
+			std::cout << std::get<1>(node->m_token) << " "
+				<< std::get<0>(node->m_token) << "\n";
+			break;
+		case WriteE:
+			break;
+		case FunctionIdentifierE:
+			std::cout << "<function-identifier>\n";
+			PrintSeparator(count + 3);
+			std::cout << std::get<1>(node->m_token) << " "
+				<< std::get<0>(node->m_token) << "\n";
+			break;
+		case ConstantE:
+			std::cout << "<constant>\n";
+			PrintSeparator(count + 3);
+			std::cout << std::get<1>(node->m_token) << " "
+				<< std::get<0>(node->m_token) << "\n";
+			PrintSeparator(count);
+			std::cout << "<function-characteristic>\n";
+			count += 3;
+			break;
+		case UnsignedIntegerE:
+			std::cout << "<unsigned-integer>\n";
+			PrintSeparator(count + 3);
+			std::cout << std::get<1>(node->m_token) << " "
+				<< std::get<0>(node->m_token) << "\n";
+			break;
+		case EmptyFunctionListE:
+			std::cout << "<function-list>\n";
+			PrintEmpty(count + 3);
+			break;
+		case EmptyStatementListE:
+			std::cout << "<statement-list>\n";
+			PrintEmpty(count + 3);
+			break;
+		case EmptyMathFunctionDeclarationE:
+			std::cout << "<math-function-declaration>\n";
+			PrintEmpty(count + 3);
+			break;
+		default:
+			break;
+		}
+		return count;
+	}
 }
 

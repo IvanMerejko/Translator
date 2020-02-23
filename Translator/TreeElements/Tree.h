@@ -16,6 +16,8 @@ struct Node
     Node() = default;
     Node(std::optional<Address> address)
         : m_address{std::move(address)}
+		, m_child{nullptr}
+		, m_next{nullptr}
     {};
     std::optional<Address> m_address;
     TokenInfo m_token;

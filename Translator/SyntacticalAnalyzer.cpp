@@ -7,6 +7,30 @@
 #include <utility>
 #include <array>
 
+
+ErrorMap CreateErrorMap()
+{
+	using Error = ErrorInKnutTable;
+	ErrorMap errorMap
+	{
+		{Error::ExpectedProgram,"Expected \"PROGRAM\". Found: "},
+		{Error::ExpectedIdentifier,"Expected <procedure-identifier>. Found: "},
+		{Error::ExpectedSemicolon,"Expected ';'. Found: "},
+		{Error::ExpectedBegin,"Expected \"BEGIN\". Found: "},
+		{Error::ExpectedEnd,"Expected \"END\". Found: "},
+		{Error::ExpectedDot,"Expected '.'. Found: "},
+		{Error::ExpectedDeffunc,"Expected \"DEFFUNC\". Found: "},
+		{Error::ExpectedEqualSymbol,"Expected '='. Found: "},
+		{Error::ExpectedConstant,"Expected <constant>. Found: "},
+		{Error::ExpectedUnsignedInteger,"Expected <unsigned-integer>. Found: "},
+		{Error::ExpectedDivisionSymbol,"Expected '\'. Found: "},
+		{Error::ExpectedComma,"Expected ','. Found: "},
+		{Error::ExpectedEmptyStatementList,"Expected empty <statement-list>. Found: "},
+	};
+	return errorMap;
+}
+
+
 auto GetFirstElement(const oneLine& info)
 {
     return std::get<0>(info);
@@ -96,15 +120,19 @@ SyntacticalAnalyzer::SyntacticalAnalyzer(const Context& context, const TokensInf
 	, m_tokensInfoVector{ tokensInfoVector }
 	, m_tree{ std::make_shared<Node>() }
 	, m_table{ CreateTable() }
+	, m_errorMap{ CreateErrorMap() }
 {}
 void SyntacticalAnalyzer::StartAnalyze()
 {
 	int start{ 0 };
-	if (auto error = parse(0, start, m_tree.m_root))
-	{
-		std::cout << "\n" << std::get<0>(error->m_info) << '\n';
-	}
+	auto error = parse(0, start, m_tree.m_root);
+
 	m_tree.Print(m_tree.m_root, 0);
+	if (error)
+	{
+		writeError(*error);
+	}
+	
 }
 bool SyntacticalAnalyzer::isTerminal(const oneLine& lineInfo) const
 {
@@ -117,7 +145,7 @@ bool SyntacticalAnalyzer::if_AT(int& currentLine, int& currentToken, NodePtr& no
 	auto& [address, checker, AT, AF] = (*m_table)[currentLine];
 	if (AT)
 	{
-		if (AF)
+		if (AF && AF->m_error != ErrorInKnutTable::ExpectedEmptyStatementList)
 		{
 			++currentToken;
 		}
@@ -131,6 +159,33 @@ bool SyntacticalAnalyzer::if_AT(int& currentLine, int& currentToken, NodePtr& no
 		node = node->m_next;
 	}
 	return false;
+}
+void SyntacticalAnalyzer::treeNextRoot(NodePtr& tmp, int currentLine)
+{
+	if (auto address = std::get<int>(GetSecondElement((*m_table)[currentLine]));
+		address == FunctionE)
+	{
+		tmp = tmp->m_child->m_next;
+		while (tmp->m_next)
+		{
+			tmp = tmp->m_next;
+		}
+		tmp->m_next = std::make_shared<Node>();
+		tmp = tmp->m_next;
+	}
+	else
+	{
+		tmp = tmp->m_next = std::make_shared<Node>();
+	}
+}
+void SyntacticalAnalyzer::writeError(const ErrorContext& context)
+{
+	auto errorInString = m_errorMap[context.m_error];
+	std::cout << "\n\n"
+		<< "Line: " << std::get<2>(context.m_info)
+		<< ". Column: " << std::get<3>(context.m_info)
+		<< "  " << errorInString << std::get<0>(context.m_info);
+		     
 }
 
 std::optional<ErrorContext> SyntacticalAnalyzer::parse(int currentLine, int& currentToken, NodePtr& node)
@@ -149,6 +204,10 @@ std::optional<ErrorContext> SyntacticalAnalyzer::parse(int currentLine, int& cur
 			}
 			tmp = tmp->m_next = std::make_shared<Node>();
 			++currentLine;
+			if (currentToken >= m_tokensInfoVector.size())
+			{
+				return std::nullopt;
+			}
 		}
 		do 
 		{
@@ -160,14 +219,13 @@ std::optional<ErrorContext> SyntacticalAnalyzer::parse(int currentLine, int& cur
 				{
 					return error;
 				}
-				tmp = tmp->m_next = std::make_shared<Node>();
+				treeNextRoot(tmp, currentLine);
 				++currentLine;
-				if (GetFirstElement((*m_table)[currentLine]) != std::nullopt)
+				if (currentToken >= m_tokensInfoVector.size() || GetFirstElement((*m_table)[currentLine]) != std::nullopt)
 				{
 					return std::nullopt;
 				}
 			}
-			
 			auto& [address, checker, AT, AF] = (*m_table)[currentLine];
 			auto& function = std::get<functionChecker>(checker);
 			if ((this->*function)(m_tokensInfoVector, currentToken, tmp))
@@ -191,6 +249,7 @@ std::optional<ErrorContext> SyntacticalAnalyzer::parse(int currentLine, int& cur
 			}
 		} while (currentToken < m_tokensInfoVector.size() && GetFirstElement((*m_table)[currentLine]) == std::nullopt);
 	}
+	return std::nullopt;
 }
 bool SyntacticalAnalyzer::checkProgram(const TokensInfoVector& tokens, int& currentToken, NodePtr& node) const
 {
@@ -266,7 +325,7 @@ bool SyntacticalAnalyzer::checkEmptyMathFunctionDeclaration(const TokensInfoVect
     const auto& keywords = m_context.GetKeywords();
     const auto it = keywords.find("DEFFUNC");
     const auto& [tokenName, tokenNumber, line, column] = tokens[currentToken];
-    return it->second != tokenNumber;
+	return it->second != tokenNumber;
 }
 
 bool SyntacticalAnalyzer::checkEmptyFunctionList(const TokensInfoVector& tokens, int& currentToken, NodePtr& node) const
@@ -274,7 +333,12 @@ bool SyntacticalAnalyzer::checkEmptyFunctionList(const TokensInfoVector& tokens,
 	const auto& keywords = m_context.GetIdentifiers();
 	const auto& [tokenName, tokenNumber, line, column] = tokens[currentToken];
 	const auto it = keywords.find(tokenName);
-	return it == keywords.end();
+	if (it == keywords.end())
+	{
+		node->m_address = EmptyFunctionListE;
+		return true;
+	}
+	return false;
 }
 bool SyntacticalAnalyzer::checkEqualSymbol(const TokensInfoVector& tokens, int& currentToken, NodePtr& node) const
 {
@@ -320,81 +384,14 @@ bool SyntacticalAnalyzer::checkEmptyStatementList(const TokensInfoVector& tokens
 	const auto& keywords = m_context.GetKeywords();
 	const auto it = keywords.find("END");
 	const auto& [tokenName, tokenNumber, line, column] = tokens[currentToken];
-	return it->second == tokenNumber;
+	if( it->second == tokenNumber)
+	{
+		node->m_address = EmptyStatementListE;
+		return true;
+	}
+	return false;
 }
 bool SyntacticalAnalyzer::checkEOF(const TokensInfoVector& tokens, int& currentToken, NodePtr& node) const
 {
     return false;
 }
-
-
-
-/*std::optional<ErrorContext> SyntacticalAnalyzer::parse(int currentLine, int& currentToken, NodePtr& node)
-{
-	auto tmp = node;
-	while (currentToken < m_tokensInfoVector.size())
-	{
-		while (!isTerminal((*m_table)[currentLine]))
-		{
-			tmp->m_child = std::make_shared<Node>();
-			if (auto error = parse(std::get<int>(GetSecondElement((*m_table)[currentLine])), currentToken, tmp->m_child);
-				error)
-			{
-				return error;
-			}
-			tmp = tmp->m_next = std::make_shared<Node>();
-			++currentLine;
-		}
-		do 
-		{
-			while (!isTerminal((*m_table)[currentLine]))
-			{
-				tmp->m_child = std::make_shared<Node>();
-				if (auto error = parse(std::get<int>(GetSecondElement((*m_table)[currentLine])), currentToken, tmp->m_child);
-					error)
-				{
-					return error;
-				}
-				tmp = tmp->m_next = std::make_shared<Node>();
-				++currentLine;
-				if (GetFirstElement((*m_table)[currentLine]) != std::nullopt)
-				{
-					return std::nullopt;
-				}
-			}
-			
-			auto& [address, checker, AT, AF] = (*m_table)[currentLine];
-			auto& function = std::get<functionChecker>(checker);
-			if ((this->*function)(m_tokensInfoVector, currentToken, tmp))
-			{
-			if (AT)
-			{
-				if (AF)
-				{
-					++currentToken;
-				}
-				return std::nullopt;
-			}
-			else
-			{
-				++currentLine;
-				++currentToken;
-				tmp->m_next = std::make_shared<Node>();
-				tmp = tmp->m_next;
-			}
-						}
-						else
-						{
-						if (AF)
-						{
-							AF->m_info = m_tokensInfoVector[currentToken];
-							return AF;
-						}
-						else
-						{
-							++currentLine;
-						}
-						}
-					} while (currentToken < m_tokensInfoVector.size() && GetFirstElement((*m_table)[currentLine]) == std::nullopt);
-				}
-			}*/
